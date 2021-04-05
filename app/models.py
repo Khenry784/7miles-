@@ -12,14 +12,12 @@ class UserProfile(db.Model):
     first_name = db.Column(db.String(80))
     last_name = db.Column(db.String(80))
     username = db.Column(db.String(80), unique=True)
-    email= db.Column(db.String(80))
     password = db.Column(db.String(255))
 
-    def __init__(self, first_name, last_name, username,email, password):
+    def __init__(self, first_name, last_name, username, password):
         self.first_name = first_name
         self.last_name = last_name
         self.username = username
-        self.email=email
         self.password = generate_password_hash(password, method='pbkdf2:sha256')
     def is_authenticated(self):
         return True
@@ -38,33 +36,3 @@ class UserProfile(db.Model):
 
     def __repr__(self):
         return '<User %r>' % (self.username)
-
-class AddItem(db.Model): 
-    __tablename__ = 'items'
-
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80))
-    description = db.Column(db.String(100))
-    unit = db.Column(db.String(80))
-    quantity= db.Column(db.Integer())
-    price = db.Column(db.Integer())
-   
-    
-
-    def __init__(self,title,description,unit,quantity,price,photo):
-        
-        self.title= title
-        self.description =description
-        self.unit =unit
-        self.quantity= quantity 
-        self.price = price 
-        self.photo = photo
-        
-    def get_id(self):
-        try:
-            return unicode(self.id)  # python 2 support
-        except NameError:
-            return str(self.id)  # python 3 support
-
-    def __repr__(self):
-        return '<Item "{}">'.format(self.id)
